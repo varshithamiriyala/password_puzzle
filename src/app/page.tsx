@@ -7,8 +7,8 @@ import { PuzzleCard } from "@/components/app/PuzzleCard";
 import { puzzles as allPuzzles } from "@/lib/placeholder-data";
 import { Button } from "@/components/ui/button";
 import { Confetti } from "@/components/app/Confetti";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Timer, Star, ChevronsRight, Info } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Timer, Star, ChevronsRight, Info, LogOut } from "lucide-react";
 
 const TOTAL_TIME = 600; // 10 minutes
 
@@ -69,6 +69,16 @@ export default function Home() {
     setCurrentPuzzleIndex(0);
     setShowConfetti(false);
     setGameStarted(true);
+    setGameOver(false);
+    setScore(0);
+    setTimeLeft(TOTAL_TIME);
+  };
+  
+  const exitGame = () => {
+    setSolvedPuzzles([]);
+    setCurrentPuzzleIndex(0);
+    setShowConfetti(false);
+    setGameStarted(false);
     setGameOver(false);
     setScore(0);
     setTimeLeft(TOTAL_TIME);
@@ -213,6 +223,18 @@ export default function Home() {
                           </div>
                         </div>
                       </CardContent>
+                      {gameStarted && !gameOver && (
+                        <CardFooter>
+                          <Button
+                            onClick={exitGame}
+                            variant="outline"
+                            className="w-full"
+                          >
+                            <LogOut className="mr-2 h-4 w-4" />
+                            Exit Game
+                          </Button>
+                        </CardFooter>
+                      )}
                     </Card>
                 </div>
               </div>
