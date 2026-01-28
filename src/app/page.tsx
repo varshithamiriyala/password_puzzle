@@ -14,6 +14,7 @@ const TOTAL_TIME = 600; // 10 minutes
 
 export default function Home() {
   const [solvedPuzzles, setSolvedPuzzles] = useState<string[]>([]);
+  const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -41,18 +42,19 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [gameStarted, gameOver]);
 
-  useEffect(() => {
-    if (allPuzzlesSolved) {
-      setShowConfetti(true);
-      setGameOver(true);
-      setGameStarted(false);
-    }
-  }, [allPuzzlesSolved]);
-
   const handleSolve = (puzzleId: string) => {
     if (!solvedPuzzles.includes(puzzleId)) {
-      setSolvedPuzzles((prev) => [...prev, puzzleId]);
+      const newSolvedPuzzles = [...solvedPuzzles, puzzleId];
+      setSolvedPuzzles(newSolvedPuzzles);
       setScore((prev) => prev + 100 + Math.floor(timeLeft / 10)); // Add time bonus
+
+      if (newSolvedPuzzles.length === allPuzzles.length) {
+        setShowConfetti(true);
+        setGameOver(true);
+        setGameStarted(false);
+      } else {
+        setCurrentPuzzleIndex((prev) => prev + 1);
+      }
     }
   };
 
@@ -64,6 +66,7 @@ export default function Home() {
 
   const resetGame = () => {
     setSolvedPuzzles([]);
+    setCurrentPuzzleIndex(0);
     setShowConfetti(false);
     setGameStarted(true);
     setGameOver(false);
@@ -76,6 +79,8 @@ export default function Home() {
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
+
+  const currentPuzzle = allPuzzles[currentPuzzleIndex];
 
   return (
     <>
@@ -107,13 +112,17 @@ export default function Home() {
                     Here&apos;s your briefing:
                   </p>
                   <ul className="list-disc space-y-3 pl-5">
+                     <li>
+                      <strong>Progressive Difficulty:</strong> You will face{" "}
+                      {allPuzzles.length} puzzles, one after another. Each round gets progressively harder.
+                    </li>
                     <li>
                       <strong>Start the Clock:</strong> You have{" "}
                       <strong>{TOTAL_TIME / 60} minutes</strong> to solve all{" "}
                       {allPuzzles.length} puzzles. The timer begins when you click &quot;Start The Challenge!&quot;.
                     </li>
                     <li>
-                      <strong>Solve to Reveal:</strong> Each correct solution unveils one character of the final password at the top of your screen.
+                      <strong>Solve to Reveal:</strong> Each correct solution unveils one character of the final password and moves you to the next round.
                     </li>
                     <li>
                       <strong>Score Points:</strong> Earn points for every correct answer, plus a time bonus for speed! Be warned: incorrect guesses will deduct points.
@@ -156,6 +165,19 @@ export default function Home() {
                       <Button onClick={resetGame}>Play Again</Button>
                     </div>
                   )}
+
+                  {gameStarted && !gameOver && currentPuzzle && (
+                     <div className="flex justify-center">
+                        <PuzzleCard
+                          key={currentPuzzle.id}
+                          puzzle={currentPuzzle}
+                          onSolve={handleSolve}
+                          onIncorrect={handleIncorrect}
+                          isSolved={isPuzzleSolved(currentPuzzle.id)}
+                          className="animate-reveal w-full max-w-lg"
+                        />
+                      </div>
+                  )}
                 </div>
                 <div className="row-start-1 flex flex-col gap-8 md:col-start-2">
                     <Card className="animate-reveal">
@@ -194,22 +216,6 @@ export default function Home() {
                     </Card>
                 </div>
               </div>
-
-              {gameStarted && !gameOver && (
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {allPuzzles.map((puzzle, index) => (
-                    <PuzzleCard
-                      key={puzzle.id}
-                      puzzle={puzzle}
-                      onSolve={handleSolve}
-                      onIncorrect={handleIncorrect}
-                      isSolved={isPuzzleSolved(puzzle.id)}
-                      style={{ animationDelay: `${index * 100}ms` }}
-                      className="animate-reveal"
-                    />
-                  ))}
-                </div>
-              )}
             </>
           )}
 
