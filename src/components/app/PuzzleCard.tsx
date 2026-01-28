@@ -25,12 +25,14 @@ import { useToast } from "@/hooks/use-toast";
 interface PuzzleCardProps extends React.HTMLAttributes<HTMLDivElement> {
   puzzle: Puzzle;
   onSolve: (puzzleId: string) => void;
+  onIncorrect: () => void;
   isSolved: boolean;
 }
 
 export function PuzzleCard({
   puzzle,
   onSolve,
+  onIncorrect,
   isSolved,
   className,
   ...props
@@ -54,6 +56,7 @@ export function PuzzleCard({
       });
     } else {
       setFeedback("incorrect");
+      onIncorrect();
       setTimeout(() => setFeedback(null), 1500);
       toast({
         variant: "destructive",

@@ -1,6 +1,6 @@
 import type { Puzzle, Player } from './types';
 
-export const PASSWORD = "GENKIT";
+export const PASSWORD = "GENKI";
 
 export const puzzles: Puzzle[] = [
   {
@@ -47,15 +47,6 @@ export const puzzles: Puzzle[] = [
     hint: 'Set up two equations: `m = 4d` and `m + 20 = 2(d + 20)`. Solve for `m` and `d`. The solution is my age.',
     solution: '40',
     passwordChar: 'I',
-  },
-  {
-    id: 'puzzle-6',
-    type: 'cipher',
-    title: 'Reversed Code',
-    puzzle: 'If `edoc` is `code`, what is `elzzup`?',
-    hint: 'The relationship is simple reversal.',
-    solution: 'puzzle',
-    passwordChar: 'T',
   },
 ];
 
