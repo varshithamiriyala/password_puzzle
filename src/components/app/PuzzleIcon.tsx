@@ -1,5 +1,5 @@
 import type { PuzzleType } from '@/lib/types';
-import { Sigma, Shapes, CodeXml, KeyRound } from 'lucide-react';
+import { Sigma, Shapes, CodeXml, KeyRound, BrainCircuit } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 
 const iconMap: Record<PuzzleType, React.ElementType> = {
@@ -7,6 +7,7 @@ const iconMap: Record<PuzzleType, React.ElementType> = {
   pattern: Shapes,
   coding: CodeXml,
   cipher: KeyRound,
+  logic: BrainCircuit,
 };
 
 interface PuzzleIconProps extends LucideProps {
@@ -15,5 +16,8 @@ interface PuzzleIconProps extends LucideProps {
 
 export function PuzzleIcon({ type, ...props }: PuzzleIconProps) {
   const Icon = iconMap[type];
+  if (!Icon) {
+    return null;
+  }
   return <Icon {...props} />;
 }

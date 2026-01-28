@@ -1,4 +1,4 @@
-export type PuzzleType = 'math' | 'pattern' | 'coding' | 'cipher';
+export type PuzzleType = 'math' | 'pattern' | 'coding' | 'cipher' | 'logic';
 
 export type Puzzle = {
   id: string;
