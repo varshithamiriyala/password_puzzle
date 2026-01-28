@@ -122,9 +122,8 @@ export default function Home() {
                     Here&apos;s your briefing:
                   </p>
                   <ul className="list-disc space-y-3 pl-5">
-                     <li>
-                      <strong>Progressive Difficulty:</strong> You will face{" "}
-                      {allPuzzles.length} puzzles, one after another. Each round gets progressively harder.
+                    <li>
+                      <strong>Two Rounds, Eight Puzzles:</strong> The challenge is split into two rounds, each with four puzzles. The difficulty increases in the second round.
                     </li>
                     <li>
                       <strong>Start the Clock:</strong> You have{" "}
@@ -132,7 +131,7 @@ export default function Home() {
                       {allPuzzles.length} puzzles. The timer begins when you click &quot;Start The Challenge!&quot;.
                     </li>
                     <li>
-                      <strong>Solve to Reveal:</strong> Each correct solution unveils one character of the final password and moves you to the next round.
+                      <strong>Solve to Reveal:</strong> Each correct solution unveils one character of the final 8-character password and moves you to the next puzzle.
                     </li>
                     <li>
                       <strong>Score Points:</strong> Earn points for every correct answer, plus a time bonus for speed! Be warned: incorrect guesses will deduct points.
@@ -219,7 +218,7 @@ export default function Home() {
                             {solvedPuzzles.length} / {allPuzzles.length}
                           </div>
                           <div className="text-xs text-muted-foreground">
-                            Rounds
+                            Puzzles
                           </div>
                         </div>
                       </CardContent>
