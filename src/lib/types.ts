@@ -6,7 +6,7 @@ export type Puzzle = {
   title: string;
   puzzle: string;
   hint: string;
-  solution: string;
+  solution: string | string[];
   passwordChar: string;
 };
 

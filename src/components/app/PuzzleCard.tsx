@@ -47,7 +47,18 @@ export function PuzzleCard({
     e.preventDefault();
     if (isSolved) return;
 
-    if (answer.trim().toLowerCase() === puzzle.solution.toLowerCase()) {
+    const userAnswer = answer.trim().toLowerCase();
+    let isCorrect = false;
+
+    if (Array.isArray(puzzle.solution)) {
+      isCorrect = puzzle.solution.some(
+        (sol) => sol.toLowerCase() === userAnswer
+      );
+    } else {
+      isCorrect = userAnswer === puzzle.solution.toLowerCase();
+    }
+
+    if (isCorrect) {
       setFeedback("correct");
       onSolve(puzzle.id);
       toast({
