@@ -15,7 +15,7 @@ const TOTAL_TIME = 600; // 10 minutes
 export default function Home() {
   const [solvedPuzzles, setSolvedPuzzles] = useState<string[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [gameStarted, setGameStarted] = useState(true);
+  const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
@@ -108,6 +108,14 @@ export default function Home() {
                   </p>
                 </CardContent>
               </Card>
+
+              {!gameStarted && !gameOver && (
+                <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-primary bg-card p-8 text-center">
+                  <h2 className="font-headline text-2xl font-bold">Ready to Play?</h2>
+                  <p className="text-muted-foreground">Click the button below to start the timer and begin the challenge.</p>
+                  <Button onClick={() => setGameStarted(true)} size="lg">Start Game</Button>
+                </div>
+              )}
 
               {gameOver && (
                 <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-primary bg-card p-8 text-center">
