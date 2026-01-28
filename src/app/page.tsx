@@ -3,21 +3,19 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "@/components/app/Header";
 import { PasswordDisplay } from "@/components/app/PasswordDisplay";
-import { Scoreboard } from "@/components/app/Scoreboard";
 import { PuzzleCard } from "@/components/app/PuzzleCard";
 import { puzzles as allPuzzles } from "@/lib/placeholder-data";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { Confetti } from "@/components/app/Confetti";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Timer, Star, ChevronsRight } from "lucide-react";
+import { Timer, Star, ChevronsRight, Info } from "lucide-react";
 
 const TOTAL_TIME = 600; // 10 minutes
 
 export default function Home() {
   const [solvedPuzzles, setSolvedPuzzles] = useState<string[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
+  const [gameStarted, setGameStarted] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
@@ -67,15 +65,10 @@ export default function Home() {
   const resetGame = () => {
     setSolvedPuzzles([]);
     setShowConfetti(false);
-    setGameStarted(false);
+    setGameStarted(true);
     setGameOver(false);
     setScore(0);
     setTimeLeft(TOTAL_TIME);
-  };
-
-  const startGame = () => {
-    resetGame();
-    setGameStarted(true);
   };
 
   const formatTime = (seconds: number) => {
@@ -94,29 +87,27 @@ export default function Home() {
             <h1 className="font-headline text-3xl font-bold tracking-tight">
               The Challenge
             </h1>
-            <Button asChild variant="outline">
-              <Link href="/admin">Admin Panel</Link>
-            </Button>
           </div>
 
           <div className="grid gap-8 md:grid-cols-[1fr_350px]">
             <div className="flex flex-col gap-8">
               <PasswordDisplay solvedPuzzles={solvedPuzzles} />
-
-              {!gameStarted && !gameOver && (
-                <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-primary bg-card p-8 text-center">
-                  <h2 className="font-headline text-2xl font-bold text-primary">
-                    Ready to Play?
-                  </h2>
+              
+              <Card>
+                <CardHeader className="flex flex-row items-center gap-2 pb-4">
+                  <Info className="h-5 w-5 text-primary" />
+                  <CardTitle className="font-headline text-xl">
+                    How to Play
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
                   <p className="text-muted-foreground">
                     You have {TOTAL_TIME / 60} minutes to solve{" "}
-                    {allPuzzles.length} puzzles. Good luck!
+                    {allPuzzles.length} puzzles. Each correct answer reveals a
+                    part of the final password. Good luck!
                   </p>
-                  <Button onClick={startGame} size="lg">
-                    Start Game
-                  </Button>
-                </div>
-              )}
+                </CardContent>
+              </Card>
 
               {gameOver && (
                 <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-primary bg-card p-8 text-center">
@@ -170,7 +161,6 @@ export default function Home() {
                   </CardContent>
                 </Card>
               )}
-              <Scoreboard />
             </div>
           </div>
 
