@@ -97,7 +97,7 @@ export default function Home() {
       {showConfetti && <Confetti />}
       <div className="flex min-h-screen w-full flex-col">
         <Header />
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+        <main className="grid-bg flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <div className="flex items-center justify-between">
             <h1 className="font-headline text-3xl font-bold tracking-tight">
               The Challenge
@@ -147,7 +147,7 @@ export default function Home() {
                 <h2 className="font-headline text-2xl font-bold">
                   Ready to test your wits?
                 </h2>
-                <Button onClick={resetGame} size="lg">
+                <Button onClick={resetGame} size="lg" className="btn-glow-pulse">
                   Start The Challenge!
                 </Button>
               </div>

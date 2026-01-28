@@ -29,7 +29,7 @@ export function PasswordDisplay({ solvedPuzzles }: PasswordDisplayProps) {
                 className={cn(
                   "flex h-16 w-12 items-center justify-center rounded-lg border text-2xl font-bold transition-all duration-500",
                   isRevealed
-                    ? "border-primary bg-primary/10 text-primary"
+                    ? "border-primary bg-primary/20 text-primary shadow-[0_0_15px_hsl(var(--primary))]"
                     : "bg-muted text-muted-foreground"
                 )}
                 style={{
