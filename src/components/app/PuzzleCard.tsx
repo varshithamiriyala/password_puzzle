@@ -27,6 +27,7 @@ interface PuzzleCardProps extends React.HTMLAttributes<HTMLDivElement> {
   onSolve: (puzzleId: string) => void;
   onIncorrect: () => void;
   isSolved: boolean;
+  round: number;
 }
 
 export function PuzzleCard({
@@ -34,6 +35,7 @@ export function PuzzleCard({
   onSolve,
   onIncorrect,
   isSolved,
+  round,
   className,
   ...props
 }: PuzzleCardProps) {
@@ -42,6 +44,10 @@ export function PuzzleCard({
     null
   );
   const { toast } = useToast();
+
+  const shortTitle = puzzle.title.includes(": ")
+    ? puzzle.title.split(": ")[1]
+    : puzzle.title;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -90,7 +96,7 @@ export function PuzzleCard({
         <div className="flex items-start justify-between">
           <CardTitle className="font-headline flex items-center gap-3 pr-4">
             <PuzzleIcon type={puzzle.type} className="h-6 w-6 text-accent" />
-            {puzzle.title}
+            Round {round}: {shortTitle}
           </CardTitle>
           {isSolved && (
             <div className="flex items-center gap-2 text-sm font-medium text-green-600">

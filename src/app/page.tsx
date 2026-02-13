@@ -23,7 +23,7 @@ const shuffle = (array: Puzzle[]) => {
 };
 
 export default function Home() {
-  const [puzzles, setPuzzles] = useState<Puzzle[]>(initialPuzzles);
+  const [puzzles, setPuzzles] = useState<Puzzle[]>(() => shuffle(initialPuzzles));
   const [solvedPuzzles, setSolvedPuzzles] = useState<string[]>([]);
   const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -104,6 +104,7 @@ export default function Home() {
   };
 
   const currentPuzzle = puzzles[currentPuzzleIndex];
+  const round = Math.floor(currentPuzzleIndex / 4) + 1;
 
   return (
     <>
@@ -196,6 +197,7 @@ export default function Home() {
                           onSolve={handleSolve}
                           onIncorrect={handleIncorrect}
                           isSolved={isPuzzleSolved(currentPuzzle.id)}
+                          round={round}
                           className="animate-reveal w-full max-w-lg"
                         />
                       </div>
