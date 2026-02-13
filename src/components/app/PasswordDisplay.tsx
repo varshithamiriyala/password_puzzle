@@ -1,12 +1,14 @@
-import { puzzles, PASSWORD } from "@/lib/placeholder-data";
+import { PASSWORD } from "@/lib/placeholder-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import type { Puzzle } from "@/lib/types";
 
 interface PasswordDisplayProps {
   solvedPuzzles: string[];
+  puzzles: Puzzle[];
 }
 
-export function PasswordDisplay({ solvedPuzzles }: PasswordDisplayProps) {
+export function PasswordDisplay({ solvedPuzzles, puzzles }: PasswordDisplayProps) {
   const solvedChars = new Map<string, string>();
   puzzles.forEach(p => {
     if (solvedPuzzles.includes(p.id)) {

@@ -4,15 +4,26 @@ import React, { useState, useEffect } from "react";
 import { Header } from "@/components/app/Header";
 import { PasswordDisplay } from "@/components/app/PasswordDisplay";
 import { PuzzleCard } from "@/components/app/PuzzleCard";
-import { puzzles as allPuzzles } from "@/lib/placeholder-data";
+import { puzzles as initialPuzzles } from "@/lib/placeholder-data";
 import { Button } from "@/components/ui/button";
 import { Confetti } from "@/components/app/Confetti";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Timer, Star, ChevronsRight, Info, LogOut } from "lucide-react";
+import type { Puzzle } from "@/lib/types";
 
 const TOTAL_TIME = 600; // 10 minutes
 
+const shuffle = (array: Puzzle[]) => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
 export default function Home() {
+  const [puzzles, setPuzzles] = useState<Puzzle[]>(initialPuzzles);
   const [solvedPuzzles, setSolvedPuzzles] = useState<string[]>([]);
   const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -22,7 +33,7 @@ export default function Home() {
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
 
   const allPuzzlesSolved =
-    allPuzzles.length > 0 && solvedPuzzles.length === allPuzzles.length;
+    puzzles.length > 0 && solvedPuzzles.length === puzzles.length;
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -48,7 +59,7 @@ export default function Home() {
       setSolvedPuzzles(newSolvedPuzzles);
       setScore((prev) => prev + 100 + Math.floor(timeLeft / 10)); // Add time bonus
 
-      if (newSolvedPuzzles.length === allPuzzles.length) {
+      if (newSolvedPuzzles.length === puzzles.length) {
         setShowConfetti(true);
         setGameOver(true);
         setGameStarted(false);
@@ -65,6 +76,7 @@ export default function Home() {
   const isPuzzleSolved = (puzzleId: string) => solvedPuzzles.includes(puzzleId);
 
   const resetGame = () => {
+    setPuzzles(shuffle(initialPuzzles));
     setSolvedPuzzles([]);
     setCurrentPuzzleIndex(0);
     setShowConfetti(false);
@@ -75,6 +87,7 @@ export default function Home() {
   };
   
   const exitGame = () => {
+    setPuzzles(initialPuzzles);
     setSolvedPuzzles([]);
     setCurrentPuzzleIndex(0);
     setShowConfetti(false);
@@ -90,7 +103,7 @@ export default function Home() {
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  const currentPuzzle = allPuzzles[currentPuzzleIndex];
+  const currentPuzzle = puzzles[currentPuzzleIndex];
 
   return (
     <>
@@ -106,7 +119,7 @@ export default function Home() {
           
           {!gameStarted && !gameOver && (
             <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center">
-              <PasswordDisplay solvedPuzzles={[]} />
+              <PasswordDisplay solvedPuzzles={[]} puzzles={puzzles} />
               <Card className="max-w-2xl animate-reveal text-left">
                 <CardHeader>
                   <CardTitle className="font-headline flex items-center gap-3 text-2xl">
@@ -128,7 +141,7 @@ export default function Home() {
                     <li>
                       <strong>Start the Clock:</strong> You have{" "}
                       <strong>{TOTAL_TIME / 60} minutes</strong> to solve all{" "}
-                      {allPuzzles.length} puzzles. The timer begins when you click &quot;Start The Challenge!&quot;.
+                      {initialPuzzles.length} puzzles. The timer begins when you click &quot;Start The Challenge!&quot;.
                     </li>
                     <li>
                       <strong>Solve to Reveal:</strong> Each correct solution unveils one character of the final 8-character password and moves you to the next puzzle.
@@ -158,7 +171,7 @@ export default function Home() {
             <>
               <div className="grid gap-8 md:grid-cols-[1fr_350px]">
                 <div className="flex flex-col gap-8">
-                  <PasswordDisplay solvedPuzzles={solvedPuzzles} />
+                  <PasswordDisplay solvedPuzzles={solvedPuzzles} puzzles={puzzles} />
                   
                   {gameOver && (
                     <div className="animate-reveal flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-primary bg-card p-8 text-center">
@@ -215,7 +228,7 @@ export default function Home() {
                         <div className="flex flex-col items-center gap-1">
                           <div className="flex items-center gap-2 text-2xl font-bold">
                             <ChevronsRight className="h-6 w-6 text-accent" />
-                            {solvedPuzzles.length} / {allPuzzles.length}
+                            {solvedPuzzles.length} / {puzzles.length}
                           </div>
                           <div className="text-xs text-muted-foreground">
                             Puzzles
