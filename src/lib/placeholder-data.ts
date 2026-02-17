@@ -62,10 +62,10 @@ export const puzzles: Puzzle[] = [
   {
     id: 'puzzle-7',
     type: 'coding',
-    title: 'Round 2: Big O Complexity',
-    puzzle: 'What is the worst-case time complexity for a linear search?',
-    hint: 'Consider the case where the element is at the very end of the list, or not in the list at all.',
-    solution: ['O(n)', 'O n', 'linear'],
+    title: 'Round 2: Recursive Riddler',
+    puzzle: 'A function calls itself with a smaller version of the problem until it hits a base case. What is this programming technique called?',
+    hint: 'It\'s like a set of Russian dolls, where each doll contains a smaller, similar doll.',
+    solution: ['recursion', 'recursive'],
     passwordChar: 'T',
   },
   {
