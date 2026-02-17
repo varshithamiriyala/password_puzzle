@@ -44,10 +44,10 @@ export const puzzles: Puzzle[] = [
   {
     id: 'puzzle-5',
     type: 'logic',
-    title: 'Round 2: The 3-Digit Number',
-    puzzle: 'I am a 3-digit number. The sum of my digits is 15. The tens digit is 3 more than the ones digit. The hundreds digit is 2 less than the tens digit. What number am I?',
-    hint: 'Set up equations for the relationships between the digits.',
-    solution: ['784', 'seven hundred eighty-four'],
+    title: 'Round 2: The Reversible Number',
+    puzzle: 'I am a 2-digit number. The sum of my digits is 9. If you reverse my digits, the new number is 27 less than the original number. What number am I?',
+    hint: 'Let the number be 10a + b. Set up equations based on the clues.',
+    solution: ['63', 'sixty-three'],
     passwordChar: 'R',
   },
   {
