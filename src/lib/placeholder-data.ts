@@ -10,7 +10,7 @@ export const puzzles: Puzzle[] = [
     title: 'Round 1: Word Sum',
     puzzle: 'If A = 1, B = 2, … Z = 26, what is the sum of the letters in the word CODE?',
     hint: 'C is the 3rd letter, O is the 15th, and so on.',
-    solution: ['37', 'thirty-seven'],
+    solution: ['27', 'twenty-seven'],
     passwordChar: 'A',
   },
   {
